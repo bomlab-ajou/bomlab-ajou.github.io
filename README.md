@@ -28,19 +28,16 @@ npm run lint
 | `src/content/news.ts` | 소식 (`/news`, 홈 Recently) |
 | `src/content/join.ts` | 모집 공고, 지원 안내, FAQ (`/join`, 홈 하단 배너) |
 
-### 남은 TODO
+### 콘텐츠 현황
 
-콘텐츠는 `shpark.org` 기준으로 실제 내용이 들어가 있습니다. 아직 비어 있는
-정보는 하나뿐입니다.
+`shpark.org` 기준으로 실제 내용이 모두 들어가 있습니다 — 연구 분야 3개
+(Body / Object / Motion), 논문 11편, PI 소개와 사진, 모집 공고.
 
-| 위치 | 내용 |
-| --- | --- |
-| `site.ts` → `contact.office` | 건물명·호실. 채우면 Join 페이지 주소란에 자동으로 한 줄 추가됨 |
+논문 저자 표기는 arXiv 등재 정보를 기준으로 맞춰져 있습니다. 새 논문을
+추가할 때도 arXiv 쪽을 따르면 일관성이 유지됩니다.
 
-`members.ts`의 PI 항목에 `photo: "/images/members/shpark.jpg"`를 넣으면
-이니셜 대신 사진이 표시됩니다.
-
-`news.ts`의 학회 날짜는 발표일 기준으로 넣어뒀으니 필요하면 조정하세요.
+`join.ts`의 `admissionsNotice`는 입시 기간 공지입니다. 모집이 끝나면 값을
+`null`로 바꾸세요. 홈과 `/join` 양쪽에서 동시에 사라집니다.
 
 ### 학생이 들어오면
 
