@@ -81,52 +81,67 @@ npm run lint
 
 졸업생은 같은 파일의 `alumni` 배열에 넣습니다.
 
-## 배포 — Cloudflare Pages
+## 배포 — GitHub Pages
 
-### 1. 저장소 연결
+저장소: `bomlab-ajou/bomlab-ajou.github.io`
+임시 주소: https://bomlab-ajou.github.io
+최종 주소: https://bom.ajou.ac.kr (DNS 설정 후)
 
-1. 이 폴더를 GitHub 저장소로 push
-2. Cloudflare 대시보드 → **Workers & Pages → Create → Pages → Connect to Git**
-3. 빌드 설정:
+`main`에 push하면 `.github/workflows/deploy.yml`이 `npm run build`를 돌리고
+`out/`을 Pages에 배포합니다. **비밀키나 API 토큰 설정은 필요 없습니다** —
+Actions의 내장 토큰을 사용합니다.
 
-   | 항목 | 값 |
-   | --- | --- |
-   | Framework preset | Next.js (Static HTML Export) |
-   | Build command | `npm run build` |
-   | Build output directory | `out` |
+Actions 탭에서 `Run workflow`로 수동 재배포도 가능합니다.
 
-이후 `main` 브랜치에 push할 때마다 자동으로 다시 빌드·배포됩니다.
-PR을 올리면 미리보기 URL도 자동 생성됩니다.
+### 왜 Cloudflare Pages가 아닌가
 
-### 2. 커스텀 도메인 (`bom.ajou.ac.kr`)
+원래 Cloudflare Pages로 계획했으나, Cloudflare 대시보드에서 신규 Pages
+프로젝트 생성 진입점이 사라졌습니다(Workers로 유도됨). Workers는 Custom
+Domain에 **본인 소유의 활성 Cloudflare zone**을 요구하는데 `ajou.ac.kr`은
+학교가 관리하므로 `bom.ajou.ac.kr` 연결이 불가능합니다.
 
-`ajou.ac.kr` DNS는 학교 전산팀이 관리하므로 직접 레코드를 넣을 수 없습니다.
+GitHub Pages는 외부 DNS의 서브도메인을 CNAME으로 지원하므로 이 제약이
+없습니다.
 
-1. Pages 프로젝트 → **Custom domains → Set up a custom domain** →
-   `bom.ajou.ac.kr` 입력
-2. Cloudflare가 `<프로젝트이름>.pages.dev` 형태의 CNAME 대상을 알려줍니다
-3. **전산팀에 아래 레코드 추가를 요청**합니다
+### 저장소 이름이 `bomlab-ajou.github.io`인 이유
+
+GitHub Pages는 `<계정명>.github.io` 저장소만 **루트 경로**(`/`)로 서빙합니다.
+다른 이름이면 `/저장소이름/` 하위 경로가 되어 `next.config.ts`에 `basePath`
+설정이 필요하고, 커스텀 도메인(루트) 연결 시 그 설정을 다시 빼야 합니다.
+루트로 통일해두면 임시 주소와 최종 주소가 동일하게 동작합니다.
+
+### `public/.nojekyll`
+
+이 파일이 없으면 GitHub Pages의 Jekyll이 밑줄로 시작하는 `_next/` 디렉터리를
+무시해서 CSS와 JavaScript가 전부 404가 됩니다. 지우지 마세요.
+
+### 커스텀 도메인 (`bom.ajou.ac.kr`) — 순서 주의
+
+1. 저장소 **Settings → Pages → Custom domain** 에 `bom.ajou.ac.kr` 입력
+2. 학교 전산팀에 CNAME 레코드 추가 요청
 
    ```
-   bom.ajou.ac.kr.   CNAME   <프로젝트이름>.pages.dev.
+   bom.ajou.ac.kr.   CNAME   bomlab-ajou.github.io.
    ```
 
-4. 레코드가 전파되면 Cloudflare가 HTTPS 인증서를 자동 발급·갱신합니다
+3. 전파되면 **Enforce HTTPS** 체크 (인증서 자동 발급)
 
-> 학교 정책상 외부 CNAME이 막혀 있다면, 전산팀에 리버스 프록시를 요청하거나
-> `pages.dev` 주소를 임시로 쓰면서 협의하면 됩니다.
+> 1번을 건너뛰고 CNAME부터 넣으면 도메인 검증이 실패합니다.
 
-### 3. 공개 전 체크리스트
+커스텀 도메인을 설정하면 `bomlab-ajou.github.io` 접속이 그쪽으로
+리다이렉트되므로, **DNS가 준비된 뒤에** 1번을 진행하는 편이 미리보기에
+유리합니다.
 
-- [ ] `site.ts` 의 `contact.office` 에 건물·호실 입력
-- [ ] PI 사진 추가 (`public/images/members/`)
+### 공개 전 체크리스트
+
 - [ ] `site.ts` 의 `url` 이 실제 도메인과 일치하는지 확인 (sitemap·robots에 사용됨)
 - [ ] `npm run build` 성공
 - [ ] 모바일 폭에서 한 번 확인
 
 ## 대안 — Asustor NAS에 직접 올리기
 
-`out/` 폴더 전체를 NAS의 웹 루트(보통 `Web` 공유폴더)에 복사하면 됩니다.
+GitHub Pages 대신 NAS에서 직접 서빙하려면, `out/` 폴더 전체를 NAS의
+웹 루트(보통 `Web` 공유폴더)에 복사하면 됩니다.
 
 ```bash
 npm run build
