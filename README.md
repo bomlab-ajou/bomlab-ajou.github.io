@@ -59,15 +59,71 @@ npm run lint
   authors: ["J. Kim", "S. Park"],  // site.labAuthors 와 일치하면 굵게 표시
   venue: "Nature",
   year: 2027,
-  type: "journal",                 // "journal" | "conference" | "preprint"
+  type: "conference",              // "journal" | "conference" | "workshop" | "preprint"
   details: "612(7940), 45–52",     // 선택
   doi: "https://doi.org/...",      // 선택
-  arxiv: "...", pdf: "...", code: "...",  // 선택
-  award: "Best Paper Award",       // 선택
-  selected: true,                  // 홈 화면에 노출
+  page: "...",                     // 선택 — 학회 공식 논문 페이지, "Paper"로 표시
+  arxiv: "...", pdf: "...", project: "...", code: "...",  // 선택
+  award: "Spotlight",              // 선택
+  selected: true,                  // 홈 화면 "Selected work"에 노출
   equalContrib: [0, 1],            // 공동 1저자 (0-based 인덱스)
+  teaser: { ... },                 // 선택 — 아래 참고
 }
 ```
+
+### 논문 대표 그림·영상 (`teaser`)
+
+`selected: true`인 논문은 홈에서 카드로 표시되고, `teaser`가 있으면 카드 위에
+16:9 틀로 들어갑니다. 파일은 `public/media/publications/`에 논문 `id`와 같은
+이름으로 둡니다.
+
+```ts
+// 그림 — 흰 카드 안에 전체가 보이게 들어감
+teaser: {
+  kind: "image",
+  src: "/media/publications/kim-2027-example.webp",
+  alt: "그림이 보여주는 내용 (화면 낭독기용)",
+}
+
+// 영상 — 화면에 보일 때만 재생, 정지 버튼 포함
+teaser: {
+  kind: "video",
+  src: "/media/publications/kim-2027-example.mp4",
+  poster: "/media/publications/kim-2027-example-poster.webp",
+  alt: "영상이 보여주는 내용",
+}
+```
+
+`fit: "cover"`를 주면 이미지도 틀을 꽉 채웁니다(사진에 적합).
+
+**파일 준비** — 사이트는 올린 파일을 그대로 내보내므로 미리 줄여야 합니다.
+
+| 종류 | 권장 |
+| --- | --- |
+| 그림 | 가로 1400px WebP. PDF 원본은 `pdftoppm -png -scale-to-x 2800 -scale-to-y -1 -singlefile in.pdf out` 후 `cwebp -q 90 -resize 1400 0 out.png -o id.webp` |
+| 영상 | 10초 안팎 H.264 MP4, 소리 없음. `ffmpeg -i in.mp4 -t 10 -an -c:v libx264 -crf 22 -pix_fmt yuv420p -movflags +faststart id.mp4` |
+| 포스터 | 영상의 대표 프레임 WebP. 동작 줄이기 설정 사용자에게는 영상 대신 이것만 보임 |
+
+현재 4편(Dexterous Point Policy, Pose6DAug, Track3R, TrackIME)의 파일이 이렇게
+만들어져 있습니다. Dexterous Point Policy 영상은 12개 시연 격자(4열×3행) 중 한 번에
+성공한 시연 한 칸(2행 1열, `crop=480:270:0:270`)을 2–26초 구간 2배속으로
+자른 것이고, 포스터는 오렌지를 그릇에 넣기 직전(21초) 장면입니다.
+
+### 연구 분야 이미지 (Research 페이지)
+
+`src/content/research.ts`의 각 분야에 `image`를 넣으면 Research 페이지의 제목
+아래에 3:2 틀로 표시됩니다. 파일은 `public/media/research/`에 분야 `slug`와 같은
+이름으로 둡니다.
+
+```ts
+image: {
+  src: "/media/research/body.webp",
+  alt: "이미지가 보여주는 내용 (화면 낭독기용)",
+},
+```
+
+원본 PNG는 `cwebp -q 82 -resize 1400 0 Body.png -o body.webp` 로 줄여서 넣습니다.
+3:2가 아닌 이미지는 틀에 맞춰 가장자리가 잘립니다.
 
 ### 구성원 추가
 
@@ -81,8 +137,8 @@ npm run lint
 ## 배포 — GitHub Pages
 
 저장소: `bomlab-ajou/bomlab-ajou.github.io`
-임시 주소: https://bomlab-ajou.github.io
-최종 주소: https://bom.ajou.ac.kr (DNS 설정 후)
+주소: https://bom.ajou.ac.kr (HTTPS, 인증서 자동 갱신)
+`https://bomlab-ajou.github.io` 로 접속하면 위 주소로 자동 이동합니다.
 
 `main`에 push하면 `.github/workflows/deploy.yml`이 `npm run build`를 돌리고
 `out/`을 Pages에 배포합니다. **비밀키나 API 토큰 설정은 필요 없습니다** —
@@ -165,7 +221,9 @@ src/
 │   └── globals.css   # 디자인 토큰 (색상·타이포)
 ├── components/       # 재사용 UI
 ├── content/          # ★ 내용은 전부 여기
-└── lib/              # 정렬·그룹핑 등 헬퍼
+└── lib/              # 정렬·그룹핑·메타데이터 헬퍼
+public/media/        # 논문 teaser, 연구 분야 이미지
+scripts/             # 파비콘·공유 이미지 생성 (npm run generate:brand)
 ```
 
 색상과 폰트는 `src/app/globals.css` 상단의 CSS 변수 한 곳에서 관리합니다.
