@@ -52,7 +52,7 @@ export const site = {
   links: {
     scholar: "https://scholar.google.com/citations?user=ZRKX9B0AAAAJ",
     github: "",
-    linkedin: "www.linkedin.com/in/seonghyp",
+    linkedin: "https://www.linkedin.com/in/seonghyp",
   },
 
   /**
