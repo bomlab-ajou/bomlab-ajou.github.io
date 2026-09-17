@@ -1,14 +1,16 @@
-import type { Metadata } from "next";
+import Image from "next/image";
 import { Container } from "@/components/container";
 import { PageHeader } from "@/components/page-header";
 import { researchAreas, researchIntro } from "@/content/research";
 import { site } from "@/content/site";
+import { pageMetadata } from "@/lib/metadata";
 
-export const metadata: Metadata = {
+export const metadata = pageMetadata({
   title: "Research",
   description:
     "Body, Object, and Motion: dexterous manipulation and robot learning, 3D and 4D reconstruction, and video motion estimation.",
-};
+  path: "/research/",
+});
 
 export default function ResearchPage() {
   return (
@@ -44,6 +46,17 @@ export default function ResearchPage() {
                 <h2 className="text-2xl font-semibold tracking-tight text-balance">
                   {area.title}
                 </h2>
+                {area.image ? (
+                  <div className="relative mt-6 aspect-[3/2] overflow-hidden rounded-lg border border-line bg-surface">
+                    <Image
+                      src={area.image.src}
+                      alt={area.image.alt}
+                      fill
+                      sizes="(max-width: 640px) 100vw, 672px"
+                      className="object-cover"
+                    />
+                  </div>
+                ) : null}
                 <div className="mt-5 space-y-4 text-[15px] leading-relaxed text-muted text-pretty">
                   {area.body.map((paragraph, paragraphIndex) => (
                     <p key={paragraphIndex}>{paragraph}</p>

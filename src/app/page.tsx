@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { AdmissionsNotice } from "@/components/admissions-notice";
 import { ButtonAnchor, ButtonLink } from "@/components/button";
@@ -5,13 +6,17 @@ import { Container } from "@/components/container";
 import { ArrowRightIcon, MailIcon } from "@/components/icons";
 import { NewsList } from "@/components/news-list";
 import { PublicationEntry } from "@/components/publication-entry";
+import { PublicationTeaser } from "@/components/publication-teaser";
 import { Section } from "@/components/section";
 import { joinIntro, openings } from "@/content/join";
 import { news } from "@/content/news";
 import { featuredResearch } from "@/content/research";
 import { site } from "@/content/site";
+import { pageMetadata } from "@/lib/metadata";
 import { selectedPublications } from "@/lib/publications";
 import { cn } from "@/lib/utils";
+
+export const metadata = pageMetadata({ description: site.description, path: "/" });
 
 export default function HomePage() {
   const recentNews = news.slice(0, 3);
@@ -19,7 +24,7 @@ export default function HomePage() {
 
   return (
     <>
-      <section className="border-b border-line">
+      <section className="border-b border-line bg-linear-to-b from-accent-soft/60 via-canvas to-canvas">
         <Container className="py-20 sm:py-28 lg:py-32">
           {site.recruiting.active ? (
             <Link
@@ -59,29 +64,42 @@ export default function HomePage() {
         link={{ href: "/research", label: "All research areas" }}
         className="border-t-0"
       >
-        <div className="grid gap-px overflow-hidden rounded-lg border border-line bg-line sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-px overflow-hidden rounded-lg border border-line bg-line md:grid-cols-3">
           {featuredResearch.map((area) => (
             <Link
               key={area.slug}
               href="/research"
-              className="group flex flex-col bg-canvas p-6 transition-colors hover:bg-surface sm:p-7"
+              className="group flex flex-col bg-canvas transition-colors hover:bg-surface"
             >
-              <span
-                aria-hidden="true"
-                className="font-mono text-3xl leading-none font-medium text-accent/30"
-              >
-                {area.letter}
-              </span>
-              <h3 className="mt-4 text-lg leading-snug font-medium tracking-tight text-balance">
-                {area.title}
-              </h3>
-              <p className="mt-3 flex-1 text-sm leading-relaxed text-muted text-pretty">
-                {area.summary}
-              </p>
-              <span className="mt-5 inline-flex items-center gap-1.5 text-sm text-accent">
-                Read more
-                <ArrowRightIcon className="size-3.5 transition-transform group-hover:translate-x-0.5" />
-              </span>
+              {area.image ? (
+                <div className="relative aspect-[3/2] overflow-hidden border-b border-line bg-surface">
+                  <Image
+                    src={area.image.src}
+                    alt={area.image.alt}
+                    fill
+                    sizes="(max-width: 767px) 100vw, (max-width: 1023px) 33vw, 320px"
+                    className="object-cover"
+                  />
+                </div>
+              ) : null}
+              <div className="flex flex-1 flex-col p-6 md:p-5 lg:p-7">
+                <span
+                  aria-hidden="true"
+                  className="font-mono text-3xl leading-none font-medium text-accent/30"
+                >
+                  {area.letter}
+                </span>
+                <h3 className="mt-4 text-lg leading-snug font-medium tracking-tight text-balance">
+                  {area.title}
+                </h3>
+                <p className="mt-3 flex-1 text-sm leading-relaxed text-muted text-pretty">
+                  {area.summary}
+                </p>
+                <span className="mt-5 inline-flex items-center gap-1.5 text-sm text-accent">
+                  Read more
+                  <ArrowRightIcon className="size-3.5 transition-transform group-hover:translate-x-0.5" />
+                </span>
+              </div>
             </Link>
           ))}
         </div>
@@ -93,9 +111,16 @@ export default function HomePage() {
           title="Selected work"
           link={{ href: "/publications", label: "All publications" }}
         >
-          <ul className="divide-y divide-line border-y border-line">
+          <ul className="grid gap-x-8 gap-y-12 sm:grid-cols-2">
             {selectedPublications.map((publication) => (
-              <li key={publication.id} className="py-8 first:pt-0 last:pb-0">
+              <li key={publication.id}>
+                {publication.teaser ? (
+                  <PublicationTeaser
+                    teaser={publication.teaser}
+                    sizes="(max-width: 640px) 100vw, 464px"
+                    className="mb-5"
+                  />
+                ) : null}
                 <PublicationEntry publication={publication} />
               </li>
             ))}

@@ -11,6 +11,30 @@
 
 export type PublicationType = "journal" | "conference" | "workshop" | "preprint";
 
+/**
+ * A figure or short looping clip shown with the paper on the home page. Files
+ * live in /public/media/publications/, named after the publication `id`.
+ */
+export type Teaser = {
+  /** Describes what is shown, for screen readers. */
+  alt: string;
+  /**
+   * "contain" keeps a whole diagram visible on a white card; "cover" fills the
+   * frame, which suits camera footage. Defaults to contain for images and cover
+   * for video.
+   */
+  fit?: "contain" | "cover";
+} & (
+  | { kind: "image"; src: string }
+  | {
+      kind: "video";
+      /** H.264 MP4, muted, a few seconds long. */
+      src: string;
+      /** Still frame shown before playback and to visitors who prefer reduced motion. */
+      poster: string;
+    }
+);
+
 export type Publication = {
   id: string;
   title: string;
@@ -23,7 +47,7 @@ export type Publication = {
   details?: string;
   doi?: string;
   arxiv?: string;
-  /** Publisher or venue page for the paper. */
+  /** Official proceedings or publisher page for the paper, shown as "Paper". */
   page?: string;
   /** Standalone project website. */
   project?: string;
@@ -34,6 +58,7 @@ export type Publication = {
   award?: string;
   /** Featured on the home page. */
   selected?: boolean;
+  teaser?: Teaser;
   /** 0-based indices of authors who contributed equally. */
   equalContrib?: number[];
 };
@@ -57,6 +82,12 @@ export const publications: Publication[] = [
     arxiv: "https://arxiv.org/abs/2606.10614",
     equalContrib: [0, 1],
     selected: true,
+    teaser: {
+      kind: "video",
+      src: "/media/publications/dexterous-point-policy-2026.mp4",
+      poster: "/media/publications/dexterous-point-policy-2026-poster.webp",
+      alt: "A dexterous robot hand picks up an orange ball and places it in a metal bowl.",
+    },
   },
   {
     id: "pose6daug-2026",
@@ -75,6 +106,12 @@ export const publications: Publication[] = [
     arxiv: "https://arxiv.org/abs/2606.20118",
     equalContrib: [0, 1],
     selected: true,
+    teaser: {
+      kind: "video",
+      src: "/media/publications/pose6daug-2026.mp4",
+      poster: "/media/publications/pose6daug-2026-poster.webp",
+      alt: "Robot footage with the grasped object's 6D pose tracked, followed by the same clip with the object swapped for a different bottle.",
+    },
   },
   {
     id: "track3r-2025",
@@ -83,7 +120,13 @@ export const publications: Publication[] = [
     venue: "Neural Information Processing Systems (NeurIPS)",
     year: 2025,
     type: "conference",
+    page: "https://papers.nips.cc/paper_files/paper/2025/hash/f298545fedd9f714c4bc1bb0f21306fd-Abstract-Conference.html",
     selected: true,
+    teaser: {
+      kind: "image",
+      src: "/media/publications/track3r-2025.webp",
+      alt: "Track3R overview: joint point-map and trajectory decoders, compared with a pair-wise point-mapping architecture.",
+    },
   },
   {
     id: "trackime-2024",
@@ -100,7 +143,13 @@ export const publications: Publication[] = [
     year: 2024,
     type: "conference",
     award: "Spotlight",
+    page: "https://papers.nips.cc/paper_files/paper/2024/hash/7bf421a1370d5d3fae9ddbcbaf746143-Abstract-Conference.html",
     selected: true,
+    teaser: {
+      kind: "image",
+      src: "/media/publications/trackime-2024.webp",
+      alt: "TrackIME overview: trajectories of semantic neighbours are aggregated, then used to prune the input frames given to a point tracker.",
+    },
   },
   {
     id: "tabular-transfer-2024",

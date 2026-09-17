@@ -15,6 +15,8 @@ export type ResearchArea = {
   /** Full description, one string per paragraph. */
   body: string[];
   keywords: string[];
+  /** Used on home cards and /research. Stored in /public/media/research/, named after the slug. */
+  image?: { src: string; alt: string };
   featured?: boolean;
 };
 
@@ -36,6 +38,10 @@ export const researchAreas: ResearchArea[] = [
       "The binding constraint is data. Real manipulation demonstrations are slow and expensive to collect, so much of this work is about extracting more from each one — through augmentation that stays physically plausible, and through policy representations that generalise from a handful of examples rather than thousands.",
     ],
     keywords: ["dexterous manipulation", "robot learning", "imitation learning", "data augmentation"],
+    image: {
+      src: "/media/research/body.webp",
+      alt: "A multi-fingered robotic hand holding a yellow cube on a lab bench, beside a depth camera and a monitor showing a simulated grasp.",
+    },
     featured: true,
   },
   {
@@ -49,6 +55,10 @@ export const researchAreas: ResearchArea[] = [
       "We are particularly interested in what can be recovered without per-scene optimisation or dense supervision: priors strong enough that a single forward pass returns structure you can actually use.",
     ],
     keywords: ["3D reconstruction", "4D reconstruction", "multi-view geometry", "neural rendering"],
+    image: {
+      src: "/media/research/object.webp",
+      alt: "A clay pitcher on a turntable in front of a camera and a calibration checkerboard, with its reconstructed 3D model on a monitor.",
+    },
     featured: true,
   },
   {
@@ -62,6 +72,10 @@ export const researchAreas: ResearchArea[] = [
       "Both problems are expensive to solve densely. We look for formulations that spend computation where the motion is, rather than uniformly across every frame and every pixel.",
     ],
     keywords: ["point tracking", "trajectory forecasting", "video understanding", "efficient inference"],
+    image: {
+      src: "/media/research/motion.webp",
+      alt: "A monitor showing point tracks following a hand as it moves a blue cube, recorded by a camera on a tripod.",
+    },
     featured: true,
   },
 ];

@@ -4,6 +4,7 @@ import { DraftBanner } from "@/components/draft-banner";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 import { site } from "@/content/site";
+import { previewImage, sharedOpenGraph, siteTitle } from "@/lib/metadata";
 import "./globals.css";
 
 const inter = Inter({
@@ -21,20 +22,20 @@ const jetbrainsMono = JetBrains_Mono({
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
   title: {
-    default: `${site.name} — ${site.fullName}`,
+    default: siteTitle,
     template: `%s — ${site.name}`,
   },
   description: site.description,
+  // No canonical URL or og:url here. This layout wraps every route, including
+  // the 404 page, and pages inherit whatever it sets; each page declares its
+  // own through `pageMetadata` instead.
   openGraph: {
-    type: "website",
-    siteName: site.name,
-    title: `${site.name} — ${site.fullName}`,
+    ...sharedOpenGraph,
+    title: siteTitle,
     description: site.description,
-    url: site.url,
-    locale: "en_US",
   },
-  twitter: { card: "summary_large_image" },
-  alternates: { canonical: "/" },
+  // X falls back to og:image, but naming the image here keeps it independent of that.
+  twitter: { card: "summary_large_image", images: [previewImage] },
 };
 
 /**

@@ -1,4 +1,3 @@
-import type { Metadata } from "next";
 import { AdmissionsNotice } from "@/components/admissions-notice";
 import { ButtonAnchor } from "@/components/button";
 import { Container } from "@/components/container";
@@ -12,11 +11,13 @@ import {
   openings,
 } from "@/content/join";
 import { site } from "@/content/site";
+import { pageMetadata } from "@/lib/metadata";
 
-export const metadata: Metadata = {
+export const metadata = pageMetadata({
   title: "Join us",
-  description: `Open graduate, undergraduate, and visiting positions at ${site.fullName}, ${site.university}.`,
-};
+  description: joinIntro[0],
+  path: "/join/",
+});
 
 const openCount = openings.filter((opening) => opening.open).length;
 

@@ -27,10 +27,10 @@ export function PublicationEntry({
 
   // Rendered in this order, skipping whatever the entry does not define.
   const linkFields = [
+    ["page", "Paper"],
     ["pdf", "PDF"],
     ["doi", "DOI"],
     ["arxiv", "arXiv"],
-    ["page", "Page"],
     ["project", "Project"],
     ["code", "Code"],
   ] as const;

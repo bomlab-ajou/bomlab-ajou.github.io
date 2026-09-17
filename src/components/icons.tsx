@@ -139,3 +139,20 @@ export function CloseIcon(props: IconProps) {
     </Icon>
   );
 }
+
+export function PlayIcon(props: IconProps) {
+  return (
+    <Icon {...props} fill="currentColor" stroke="none">
+      <path d="M8 5.5v13a1 1 0 0 0 1.5.86l10.4-6.5a1 1 0 0 0 0-1.72L9.5 4.64A1 1 0 0 0 8 5.5Z" />
+    </Icon>
+  );
+}
+
+export function PauseIcon(props: IconProps) {
+  return (
+    <Icon {...props} fill="currentColor" stroke="none">
+      <rect x="6" y="5" width="4" height="14" rx="1" />
+      <rect x="14" y="5" width="4" height="14" rx="1" />
+    </Icon>
+  );
+}

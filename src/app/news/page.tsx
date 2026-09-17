@@ -1,13 +1,14 @@
-import type { Metadata } from "next";
 import { Container } from "@/components/container";
 import { NewsList } from "@/components/news-list";
 import { PageHeader } from "@/components/page-header";
 import { news } from "@/content/news";
+import { pageMetadata } from "@/lib/metadata";
 
-export const metadata: Metadata = {
+export const metadata = pageMetadata({
   title: "News",
   description: "Announcements, awards, talks, and new people in the lab.",
-};
+  path: "/news/",
+});
 
 export default function NewsPage() {
   return (

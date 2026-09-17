@@ -1,14 +1,15 @@
-import type { Metadata } from "next";
 import { Container } from "@/components/container";
 import { PageHeader } from "@/components/page-header";
 import { PublicationBrowser } from "@/components/publication-browser";
 import { site } from "@/content/site";
+import { pageMetadata } from "@/lib/metadata";
 import { presentTypes, publicationCount, sortedPublications } from "@/lib/publications";
 
-export const metadata: Metadata = {
+export const metadata = pageMetadata({
   title: "Publications",
-  description: `Journal articles, conference papers, and preprints from ${site.name}.`,
-};
+  description: `Conference papers, workshop papers, and preprints from ${site.name}.`,
+  path: "/publications/",
+});
 
 export default function PublicationsPage() {
   return (

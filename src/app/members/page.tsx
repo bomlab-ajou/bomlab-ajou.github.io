@@ -1,4 +1,3 @@
-import type { Metadata } from "next";
 import { ButtonLink } from "@/components/button";
 import { Container } from "@/components/container";
 import { ArrowRightIcon, ArrowUpRightIcon } from "@/components/icons";
@@ -6,11 +5,13 @@ import { MemberCard, PrincipalInvestigatorCard } from "@/components/member-card"
 import { PageHeader } from "@/components/page-header";
 import { alumni, members, roleGroupTitles, roleOrder, type MemberRole } from "@/content/members";
 import { site } from "@/content/site";
+import { pageMetadata } from "@/lib/metadata";
 
-export const metadata: Metadata = {
+export const metadata = pageMetadata({
   title: "People",
   description: `The researchers and students of ${site.fullName} at ${site.university}.`,
-};
+  path: "/members/",
+});
 
 /** Roles advertised in the empty state, while the lab is still forming. */
 const openRoles: MemberRole[] = ["phd", "ms", "undergrad"];
