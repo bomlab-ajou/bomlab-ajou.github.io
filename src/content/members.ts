@@ -74,8 +74,7 @@ export const members: Member[] = [
       "video motion estimation",
     ],
     bio: [
-      "Seong Hyeon Park is an Assistant Professor in the Department of Software and Computer Engineering at Ajou University, where he started the Body, Object, and Motion Lab in fall 2026.",
-      "He received his Ph.D. from KAIST and was previously a Visiting Scholar at the Global AI Frontier Lab, New York University. Before his doctorate, he worked on vehicle and pedestrian motion prediction.",
+      "Seong Hyeon Park is an Assistant Professor in the Department of Software and Computer Engineering at Ajou University, where he started the Body, Object, and Motion Lab in fall 2026. He received his Ph.D. from KAIST and was previously a Visiting Scholar at the Global AI Frontier Lab, New York University.",
       "His research is on efficient algorithms for robot learning and high-dimensional computer vision: dexterous, high-degree-of-freedom robotic hand policies, 3D and 4D reconstruction, and video motion estimation.",
     ],
     links: {
