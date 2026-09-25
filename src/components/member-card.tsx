@@ -9,6 +9,7 @@ import {
   ScholarIcon,
 } from "@/components/icons";
 import { roleLabels, type Member } from "@/content/members";
+import { versioned } from "@/lib/asset-version";
 import { cn } from "@/lib/utils";
 import { initials } from "@/lib/utils";
 
@@ -40,7 +41,7 @@ function Avatar({
     >
       {member.photo ? (
         <Image
-          src={member.photo}
+          src={versioned(member.photo)}
           alt={member.name}
           fill
           sizes={sizes}

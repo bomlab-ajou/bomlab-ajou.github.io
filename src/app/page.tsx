@@ -12,6 +12,7 @@ import { joinIntro, openings } from "@/content/join";
 import { news } from "@/content/news";
 import { featuredResearch } from "@/content/research";
 import { site } from "@/content/site";
+import { versioned } from "@/lib/asset-version";
 import { pageMetadata } from "@/lib/metadata";
 import { selectedPublications } from "@/lib/publications";
 import { cn } from "@/lib/utils";
@@ -74,7 +75,7 @@ export default function HomePage() {
               {area.image ? (
                 <div className="relative aspect-[3/2] overflow-hidden border-b border-line bg-surface">
                   <Image
-                    src={area.image.src}
+                    src={versioned(area.image.src)}
                     alt={area.image.alt}
                     fill
                     sizes="(max-width: 767px) 100vw, (max-width: 1023px) 33vw, 320px"

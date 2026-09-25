@@ -10,7 +10,13 @@ const nextConfig: NextConfig = {
   trailingSlash: true,
 
   // No Node server at runtime, so the default image optimizer is unavailable.
-  images: { unoptimized: true },
+  images: {
+    unoptimized: true,
+    // Local image URLs carry a content-hash query (src/lib/asset-version.ts),
+    // and Next.js 16 rejects query strings on local images unless allowed here.
+    // Any query is fine: with a static export there is no optimizer to abuse.
+    localPatterns: [{ pathname: "/media/**" }, { pathname: "/images/**" }],
+  },
 };
 
 export default nextConfig;

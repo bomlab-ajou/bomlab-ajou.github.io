@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { TeaserVideo } from "@/components/teaser-video";
 import type { Teaser } from "@/content/publications";
+import { versioned } from "@/lib/asset-version";
 import { cn } from "@/lib/utils";
 
 /**
@@ -33,11 +34,11 @@ export function PublicationTeaser({
       )}
     >
       {teaser.kind === "image" ? (
-        <Image src={teaser.src} alt={teaser.alt} fill sizes={sizes} className={media} />
+        <Image src={versioned(teaser.src)} alt={teaser.alt} fill sizes={sizes} className={media} />
       ) : (
         <TeaserVideo
-          src={teaser.src}
-          poster={teaser.poster}
+          src={versioned(teaser.src)}
+          poster={versioned(teaser.poster)}
           label={teaser.alt}
           className={media}
         />

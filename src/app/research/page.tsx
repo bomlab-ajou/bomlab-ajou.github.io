@@ -3,6 +3,7 @@ import { Container } from "@/components/container";
 import { PageHeader } from "@/components/page-header";
 import { researchAreas, researchIntro } from "@/content/research";
 import { site } from "@/content/site";
+import { versioned } from "@/lib/asset-version";
 import { pageMetadata } from "@/lib/metadata";
 
 export const metadata = pageMetadata({
@@ -49,7 +50,7 @@ export default function ResearchPage() {
                 {area.image ? (
                   <div className="relative mt-6 aspect-[3/2] overflow-hidden rounded-lg border border-line bg-surface">
                     <Image
-                      src={area.image.src}
+                      src={versioned(area.image.src)}
                       alt={area.image.alt}
                       fill
                       sizes="(max-width: 640px) 100vw, 672px"
