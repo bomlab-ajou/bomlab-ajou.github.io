@@ -86,7 +86,7 @@ export const publications: Publication[] = [
       kind: "video",
       src: "/media/publications/dexterous-point-policy-2026.mp4",
       poster: "/media/publications/dexterous-point-policy-2026-poster.webp",
-      alt: "A dexterous robot hand picks up an orange ball and places it in a metal bowl.",
+      alt: "Two dexterous robot hands, cutting between the camera view and the 3D point cloud: the left hand lifts a blue tube off a peg, and the right hand sets a peach tube onto the same peg.",
     },
   },
   {
