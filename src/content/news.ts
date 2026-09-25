@@ -26,15 +26,22 @@ export const newsTagLabels: Record<NewsTag, string> = {
 
 const entries: NewsItem[] = [
   {
+    date: "2026-09-26",
+    title: "Pose6DAug accepted to NeurIPS 2026",
+    body: "Our paper on physically plausible multi-view object swapping for robot data augmentation will appear at NeurIPS 2026.",
+    tag: "publication",
+    link: { href: "/publications/", label: "See publication" },
+  },
+  {
     date: "2026-09-16",
-    title: "We are recruiting graduate and undergraduate students",
+    title: "Now recruiting graduate and undergraduate students",
     body: "Positions are open for M.S., Ph.D., and integrated students, and for Ajou undergraduates looking for a semester-long research project. Admissions for the spring 2027 semester take place in October, so please get in touch soon.",
     tag: "people",
     link: { href: "/join/", label: "See open positions" },
   },
   {
     date: "2026-09-01",
-    title: "The Body, Object, and Motion Lab opens at Ajou University",
+    title: "Body, Object, and Motion Lab opens at Ajou University",
     body: "The lab joins the Department of Software and Computer Engineering, working on robot learning and high-dimensional computer vision.",
     tag: "general",
   },
