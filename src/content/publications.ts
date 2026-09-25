@@ -30,7 +30,7 @@ export type Teaser = {
       kind: "video";
       /** H.264 MP4, muted, a few seconds long. */
       src: string;
-      /** Still frame shown before playback and to visitors who prefer reduced motion. */
+      /** Still frame shown until playback starts, and wherever the browser blocks autoplay. */
       poster: string;
     }
 );

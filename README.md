@@ -85,7 +85,7 @@ teaser: {
   alt: "그림이 보여주는 내용 (화면 낭독기용)",
 }
 
-// 영상 — 화면에 보일 때만 재생, 정지 버튼 포함
+// 영상 — 항상 자동재생(화면 밖에서는 멈춤), 정지 버튼 포함
 teaser: {
   kind: "video",
   src: "/media/publications/kim-2027-example.mp4",
@@ -106,7 +106,7 @@ teaser: {
 | --- | --- |
 | 그림 | 가로 1400px WebP. PDF 원본은 `pdftoppm -png -scale-to-x 2800 -scale-to-y -1 -singlefile in.pdf out` 후 `cwebp -q 90 -resize 1400 0 out.png -o id.webp` |
 | 영상 | 10초 안팎 H.264 MP4, 소리 없음. `ffmpeg -i in.mp4 -t 10 -an -c:v libx264 -crf 22 -pix_fmt yuv420p -movflags +faststart id.mp4` |
-| 포스터 | 영상의 대표 프레임 WebP. 동작 줄이기 설정 사용자에게는 영상 대신 이것만 보임 |
+| 포스터 | 영상의 대표 프레임 WebP. 재생이 시작되기 전과, 자동재생을 막는 브라우저(아이폰 저전력 모드 등)에서 보임 |
 
 현재 4편(Dexterous Point Policy, Pose6DAug, Track3R, TrackIME)의 파일이 이렇게
 만들어져 있습니다. Dexterous Point Policy 영상은 12개 시연 격자(4열×3행) 중 한 번에

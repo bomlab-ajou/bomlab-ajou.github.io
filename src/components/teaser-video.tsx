@@ -1,12 +1,16 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useSyncExternalStore } from "react";
 import { PauseIcon, PlayIcon } from "@/components/icons";
 
 /**
- * A short muted loop that plays only while it is on screen, so a page of clips
- * does not download and decode all of them at once. Visitors who prefer reduced
- * motion get the poster and a play button instead of autoplay.
+ * A short muted loop that always starts on its own. The markup carries
+ * `autoPlay`, so the browser begins playback without waiting for JavaScript;
+ * once hydrated, the clip pauses while scrolled out of view and resumes when it
+ * comes back. The visitor can still pause it, and that choice sticks.
+ *
+ * Some browsers refuse all autoplay (iOS Low Power Mode, for one); the poster
+ * and the play button cover that case.
  */
 export function TeaserVideo({
   src,
@@ -22,7 +26,24 @@ export function TeaserVideo({
   const videoRef = useRef<HTMLVideoElement>(null);
   // Scrolling back into view must not override a pause the visitor chose.
   const pausedByVisitor = useRef(false);
-  const [playing, setPlaying] = useState(false);
+
+  // Read the play state from the element itself: autoplay can begin before
+  // React hydrates, so a `play` event may already have fired unseen.
+  const subscribe = useCallback((onChange: () => void) => {
+    const video = videoRef.current;
+    if (!video) return () => {};
+    video.addEventListener("play", onChange);
+    video.addEventListener("pause", onChange);
+    return () => {
+      video.removeEventListener("play", onChange);
+      video.removeEventListener("pause", onChange);
+    };
+  }, []);
+  const playing = useSyncExternalStore(
+    subscribe,
+    () => (videoRef.current ? !videoRef.current.paused : false),
+    () => false,
+  );
 
   useEffect(() => {
     const video = videoRef.current;
@@ -31,8 +52,6 @@ export function TeaserVideo({
     // React does not reliably apply `muted` before hydration, and unmuted
     // autoplay is blocked, so set it explicitly.
     video.muted = true;
-
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
     const observer = new IntersectionObserver(
       ([entry]) => {
@@ -67,12 +86,11 @@ export function TeaserVideo({
         className={className}
         poster={poster}
         aria-label={label}
+        autoPlay
         muted
         loop
         playsInline
-        preload="none"
-        onPlay={() => setPlaying(true)}
-        onPause={() => setPlaying(false)}
+        preload="auto"
       >
         <source src={src} type="video/mp4" />
         {label}
