@@ -10,7 +10,7 @@
 export const joinHeadline = "We are recruiting";
 
 export const joinIntro = [
-  "The Body, Object, and Motion Lab is recruiting graduate students and undergraduate researchers in the Department of Software and Computer Engineering at Ajou University.",
+  "The Body, Object, and Motion Lab is recruiting graduate students and undergraduate researchers in the Department of Software at Ajou University.",
   "We work on efficient algorithms for robot learning and high-dimensional computer vision — dexterous hand policies, 3D and 4D reconstruction, and video motion estimation. If that is the kind of problem you want to spend a few years on, we would like to hear from you.",
 ];
 

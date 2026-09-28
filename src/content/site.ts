@@ -24,7 +24,7 @@ export const site = {
     "The Body, Object, and Motion Lab at Ajou University builds efficient algorithms for robot learning and high-dimensional computer vision — dexterous hand policies, 3D and 4D reconstruction, and video motion estimation.",
 
   university: "Ajou University",
-  department: "Department of Software and Computer Engineering",
+  department: "Department of Software",
 
   url: "https://bom.ajou.ac.kr",
 

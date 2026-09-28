@@ -42,7 +42,7 @@ const entries: NewsItem[] = [
   {
     date: "2026-09-01",
     title: "Body, Object, and Motion Lab opens at Ajou University",
-    body: "The lab joins the Department of Software and Computer Engineering, working on robot learning and high-dimensional computer vision.",
+    body: "The lab joins the Department of Software, working on robot learning and high-dimensional computer vision.",
     tag: "general",
   },
 ];
